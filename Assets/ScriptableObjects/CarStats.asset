@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21cd3c21a18dd94bab4e108326c1c08, type: 3}
   m_Name: CarStats
   m_EditorClassIdentifier: 
-  topSpeed: 0
   acceleration: 0
   reverseSpeed: 0
-  reverseAcceleration: 0
-  accelerationCurve: 0
-  braking: 0
+  brakingForce: 1500
+  diffGearing: 4
   drag: 0
   grip: 0
-  steering: 0
+  steeringSpeed: 0
   extraGravity: 0

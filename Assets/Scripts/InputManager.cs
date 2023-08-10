@@ -8,8 +8,8 @@ public class InputManager : MonoBehaviour, CarInputs.ICarActions
 {
     private CarInputs CarInputs;
     public event Action DriftEvent;
-    public float accelerationInput;
-    public float steeringDirection;
+    [HideInInspector] public float accelerationInput;
+    [HideInInspector] public float steeringDirection;
 
 
     private void Awake()
