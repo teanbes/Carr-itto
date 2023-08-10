@@ -7,7 +7,7 @@ public class CarStatsSO : ScriptableObject
 {
     
     [Tooltip("Acceleration")]
-    [Range(-1.0f, 1.0f)]
+    [Range(0, 500f)]
     public float acceleration;
 
     [Min(0.1f), Tooltip("Reverse MaxSpeed")]

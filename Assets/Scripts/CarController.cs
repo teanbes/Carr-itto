@@ -26,8 +26,7 @@ public class CarController : MonoBehaviour
     //Steering
     private float totalSteering;
     [HideInInspector] public float Steering { get => totalSteering; set => totalSteering = Mathf.Clamp(value, -1f, 1f);}
-     
-
+  
     //Drift
     [HideInInspector] public bool isDrifting = true;
     bool drift;
@@ -36,22 +35,21 @@ public class CarController : MonoBehaviour
     [Header("Wheels")]
     [SerializeField] private WheelCollider[] rearWheels;
     [SerializeField] private WheelCollider[] turnWheels;
-    internal WheelCollider[] wheels;
-
+    [SerializeField] private GameObject[] wheelPrefabs;
+    private WheelCollider[] wheelCollider;
 
     // Start is called before the first frame update
     private void Start()
     {
         carRB = GetComponent<Rigidbody>();
-        wheels = GetComponentsInChildren<WheelCollider>();
+        wheelCollider = GetComponentsInChildren<WheelCollider>();
 
         if (carRB != null && carCenterOfMass != null)
         {
             carRB.centerOfMass = carCenterOfMass.localPosition;
         }
 
-        // Set the motor torque ~0 to avoid wheel locking
-        foreach (WheelCollider wheel in wheels)
+        foreach (WheelCollider wheel in wheelCollider)
         {
             wheel.motorTorque = 0f;
         }
@@ -78,7 +76,7 @@ public class CarController : MonoBehaviour
     {
         // Current speed
         currentSpeed = transform.InverseTransformDirection(carRB.velocity).z * speed;
-       
+       Debug.Log( "Current Speed: " +  currentSpeed );
         // Steering
         steering = turnInputCurve.Evaluate(inputManager.steeringDirection) * carStatsSO.steeringAngle;
 
@@ -94,13 +92,16 @@ public class CarController : MonoBehaviour
         // Accelerate and reverse
         Accelerate();
 
+        // Wheels Animation
+        WheelsAnimation();
+
         // Ground Check
         if (!CheckGround() && Mathf.Abs(transform.localEulerAngles.z ) > 80.0f)
         {
             // Rotate Car
             StartCoroutine(RotateCar());
         }
-
+  
         // Downforce
         carRB.AddForce(carStatsSO.extraGravity * currentSpeed * -transform.up);
     }
@@ -109,7 +110,7 @@ public class CarController : MonoBehaviour
     {
         if (inputManager.isBreaking)
         {
-            foreach (WheelCollider wheel in wheels)
+            foreach (WheelCollider wheel in wheelCollider)
             {
                 wheel.motorTorque = 0f;
                 wheel.brakeTorque = carStatsSO.brakingForce;
@@ -122,14 +123,15 @@ public class CarController : MonoBehaviour
         if (!inputManager.isBreaking)
         {
             // Reset break torque
-            foreach (WheelCollider wheel in wheels)
+            foreach (WheelCollider wheel in wheelCollider)
             {
                 wheel.brakeTorque = 0;
             }
 
             foreach (WheelCollider wheel in rearWheels)
             {
-                wheel.motorTorque = inputManager.accelerationInput * accelerationCurve.Evaluate(speed) * carStatsSO.diffGearing / rearWheels.Length;
+                wheel.motorTorque = inputManager.accelerationInput * accelerationCurve.Evaluate(currentSpeed) * carStatsSO.diffGearing / rearWheels.Length;
+                //wheel.motorTorque += inputManager.accelerationInput * carStatsSO.acceleration;
             }
         }
     }
@@ -149,11 +151,11 @@ public class CarController : MonoBehaviour
         }
         StopCoroutine(RotateCar());
     }
-
+    // Ground Check
     public bool CheckGround()
     {
         int groundCount = 0;
-        foreach(WheelCollider wheel in wheels)
+        foreach(WheelCollider wheel in wheelCollider)
         {
             if (wheel.isGrounded)
             {
@@ -167,5 +169,20 @@ public class CarController : MonoBehaviour
         }
         else 
             return false;
+    }
+
+    // Wheels Animation
+    private void WheelsAnimation()
+    {
+        for (int i = 0; i < wheelCollider.Length; i++)
+        {
+            Vector3 pos = new Vector3(0, 0, 0);
+            Quaternion quat = new Quaternion();
+            wheelCollider[i].GetWorldPose(out pos, out quat);
+
+            // Update Wheel Prefabs rotation and position
+            wheelPrefabs[i].transform.rotation = quat;
+            wheelPrefabs[i].transform.position = pos;
+        }
     }
 }

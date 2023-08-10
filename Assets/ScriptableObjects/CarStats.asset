@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21cd3c21a18dd94bab4e108326c1c08, type: 3}
   m_Name: CarStats
   m_EditorClassIdentifier: 
-  acceleration: 0
+  acceleration: 50
   reverseSpeed: 0
   brakingForce: 1500
   diffGearing: 10
   drift: 1
-  grip: 0
   steeringSpeed: 0.3
   steeringAngle: 35
   extraGravity: 1
