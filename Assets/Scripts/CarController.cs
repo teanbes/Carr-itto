@@ -22,10 +22,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float speed = 3.6f;
     private float steering;
     private float currentSpeed;
-    private bool isBreaking = false;
-    private bool isGrounded = false;
-    private IEnumerator coroutine;
-
+  
     //Steering
     private float totalSteering;
     [HideInInspector] public float Steering { get => totalSteering; set => totalSteering = Mathf.Clamp(value, -1f, 1f);}
@@ -58,8 +55,6 @@ public class CarController : MonoBehaviour
         {
             wheel.motorTorque = 0f;
         }
-
-        coroutine = RotateCar();
     }
        
     private void OnEnable()
