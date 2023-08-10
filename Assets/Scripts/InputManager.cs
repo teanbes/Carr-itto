@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour, CarInputs.ICarActions
 {
     private CarInputs CarInputs;
     public event Action DriftEvent;
+    [HideInInspector] public bool isBreaking;
     [HideInInspector] public float accelerationInput;
     [HideInInspector] public float steeringDirection;
 
@@ -57,10 +58,17 @@ public class InputManager : MonoBehaviour, CarInputs.ICarActions
         }
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnBrake(InputAction.CallbackContext context)
     {
-       
-    }
+        if (context.performed)
+        {
+            isBreaking = true;
+        }
+        if (!context.performed)
+        {
+            isBreaking = false;
+        }
 
-   
+
+    }
 }

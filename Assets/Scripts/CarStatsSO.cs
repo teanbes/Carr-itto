@@ -21,7 +21,7 @@ public class CarStatsSO : ScriptableObject
     [Range(2, 16)]
     public float diffGearing = 4.0f;
 
-    [Tooltip("Drift amount")]
+    [Tooltip("Drift Amount")]
     [Range(0.0f, 2f)]
     public float drift = 1.0f;
 
@@ -29,15 +29,16 @@ public class CarStatsSO : ScriptableObject
     [Tooltip("Grip Friction")]
     public float grip;
 
+    [Tooltip("Steering Speed Ratio")]
     [Range(0.001f, 1.0f)]
-    [Tooltip("Steering Speed ratio")]
-    public float steeringSpeed;
+    public float steeringSpeed = 0.2f;
 
-    [Range(0.0f, 50.0f)]
     [Tooltip("Steering Speed")]
-    public float steeringAngle;
+    [Range(0.0f, 50.0f)]
+    public float steeringAngle = 30.0f;
 
 
     [Tooltip("Extra Down Force Gravity")]
-    public float extraGravity;
+    [Range(0.0f, 5.0f)]
+    public float extraGravity = 1f;
 }
