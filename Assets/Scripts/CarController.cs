@@ -96,7 +96,7 @@ public class CarController : MonoBehaviour
         WheelsAnimation();
 
         // Ground Check
-        if (!CheckGround() && Mathf.Abs(transform.localEulerAngles.z ) > 80.0f)
+        if (!GroundCheck() && Mathf.Abs(transform.localEulerAngles.z ) > 80.0f)
         {
             // Rotate Car
             StartCoroutine(RotateCar());
@@ -131,7 +131,6 @@ public class CarController : MonoBehaviour
             foreach (WheelCollider wheel in rearWheels)
             {
                 wheel.motorTorque = inputManager.accelerationInput * accelerationCurve.Evaluate(currentSpeed) * carStatsSO.diffGearing / rearWheels.Length;
-                //wheel.motorTorque += inputManager.accelerationInput * carStatsSO.acceleration;
             }
         }
     }
@@ -144,15 +143,16 @@ public class CarController : MonoBehaviour
     // If car turn over, reset rotation to 0
     public IEnumerator RotateCar()
     {
-        yield return new WaitForSeconds(4.0f);
-        if (!CheckGround())
+        yield return new WaitForSeconds(6.0f);
+        if (!GroundCheck())
         {
             transform.localEulerAngles = new Vector3 (transform.localEulerAngles.x, transform.localEulerAngles.y, 0);
         }
         StopCoroutine(RotateCar());
     }
+
     // Ground Check
-    public bool CheckGround()
+    public bool GroundCheck()
     {
         int groundCount = 0;
         foreach(WheelCollider wheel in wheelCollider)

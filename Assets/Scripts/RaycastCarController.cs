@@ -41,8 +41,9 @@ public class RaycastCarController : MonoBehaviour
 
     [SerializeField] private CarStatsSO carStatsSO;
 
-    
-
+    private float currentSteerAngle = 0.0f;
+    public float rotationSpeed = 100.0f;
+    public float maxSteerAngle = 30.0f;
 
 
     // Start is called before the first frame update
@@ -55,16 +56,26 @@ public class RaycastCarController : MonoBehaviour
     void Update()
     {
         // Steering
-        steering = turnInputCurve.Evaluate(inputManager.steeringDirection) * carStatsSO.steeringAngle;
-        FrontRightWheel.Rotate(Vector3.right, steering);
-        // Direction
+        // Get the current rotation
+        Vector3 currentRotation = FrontRightWheel.localRotation.eulerAngles;
 
-        //FrontRightWheel. = Mathf.Lerp(wheel.steerAngle, steering, carStatsSO.steeringSpeed);
+        // Calculate the new rotation based on the steering input
+        float steerInput = inputManager.steeringDirection; // Assumes you're using the Horizontal axis for steering
+        currentSteerAngle += steerInput * rotationSpeed * Time.deltaTime;
+
+        // Clamp the steering angle to the defined maximum
+        currentSteerAngle = Mathf.Clamp(currentSteerAngle, -maxSteerAngle, maxSteerAngle);
+
+        // Apply the new rotation to the GameObject
+        FrontRightWheel.localRotation = Quaternion.Euler(currentRotation.x, currentSteerAngle, currentRotation.z);
 
 
         if (Physics.Raycast(FrontRightWheel.transform.position, FrontRightWheel.transform.TransformDirection(Vector3.down), out RayFRWheel, rayDistance, layerMask))
         {
             Debug.DrawRay(FrontRightWheel.transform.position, FrontRightWheel.transform.TransformDirection(Vector3.down) * RayFRWheel.distance, Color.yellow);
+
+            /// suspension
+            /// 
 
             // World-space spring force direction
             Vector3 springDir = FrontRightWheel.up;
@@ -90,8 +101,6 @@ public class RaycastCarController : MonoBehaviour
              
             Vector3 steeringDir = FrontRightWheel.right;
 
-            Debug.Log("steering: " + steering);
-            Debug.Log("steeringDir: " + steeringDir);
             // Tire vel in steering direction
             float steeringVel = Vector3.Dot(steeringDir, tireWorldVel);
 
