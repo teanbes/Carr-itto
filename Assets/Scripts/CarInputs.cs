@@ -62,6 +62,15 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""5022705b-9f0d-4f4d-a372-8bc9a69a30cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -240,6 +249,28 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f1c2f08-b894-491b-9a23-866572c02606"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e820fe9-b38c-4a75-b300-cca6253ca892"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -263,6 +294,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
         m_Car_Steering = m_Car.FindAction("Steering", throwIfNotFound: true);
         m_Car_Drift = m_Car.FindAction("Drift", throwIfNotFound: true);
         m_Car_Brake = m_Car.FindAction("Brake", throwIfNotFound: true);
+        m_Car_Shoot = m_Car.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -328,6 +360,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Car_Steering;
     private readonly InputAction m_Car_Drift;
     private readonly InputAction m_Car_Brake;
+    private readonly InputAction m_Car_Shoot;
     public struct CarActions
     {
         private @CarInputs m_Wrapper;
@@ -336,6 +369,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
         public InputAction @Steering => m_Wrapper.m_Car_Steering;
         public InputAction @Drift => m_Wrapper.m_Car_Drift;
         public InputAction @Brake => m_Wrapper.m_Car_Brake;
+        public InputAction @Shoot => m_Wrapper.m_Car_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Car; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -357,6 +391,9 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
         }
 
         private void UnregisterCallbacks(ICarActions instance)
@@ -373,6 +410,9 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
         }
 
         public void RemoveCallbacks(ICarActions instance)
@@ -414,5 +454,6 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
         void OnSteering(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }
