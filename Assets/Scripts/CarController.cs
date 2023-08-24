@@ -13,7 +13,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Rigidbody carRB;
     [SerializeField] private Transform carCenterOfMass;
     [SerializeField] private InputManager inputManager;
-
+    [SerializeField] private GameObject stopLights;
 
     [Header("Aditional Car Stats")]
     [SerializeField] private const float maxSpeed = 200;
@@ -110,11 +110,16 @@ public class CarController : MonoBehaviour
     {
         if (inputManager.isBreaking)
         {
+            stopLights.SetActive(true);
             foreach (WheelCollider wheel in wheelCollider)
             {
                 wheel.motorTorque = 0f;
                 wheel.brakeTorque = carStatsSO.brakingForce;
             }
+        }
+        else
+        {
+            stopLights.SetActive(false);
         }
     }
 
