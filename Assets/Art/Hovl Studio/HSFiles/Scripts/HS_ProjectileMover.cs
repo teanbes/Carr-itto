@@ -42,7 +42,6 @@ public class HS_ProjectileMover : MonoBehaviour
 		if (speed != 0)
         {
             rb.velocity = transform.forward * speed;
-            //transform.position += transform.forward * (speed * Time.deltaTime);         
         }
 	}
 
@@ -53,7 +52,7 @@ public class HS_ProjectileMover : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeAll;
         speed = 0;
 
-        ContactPoint contact = collision.contacts[0];
+        ContactPoint contact = collision.GetContact(0);
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 pos = contact.point + contact.normal * hitOffset;
 

@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform carCenterOfMass;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject stopLights;
-
+    
     [Header("Aditional Car Stats")]
     [SerializeField] private const float maxSpeed = 200;
     [SerializeField] private AnimationCurve accelerationCurve = new AnimationCurve(new Keyframe(0, maxSpeed), new Keyframe(maxSpeed, 0));
@@ -38,6 +38,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject[] wheelPrefabs;
     private WheelCollider[] wheelCollider;
 
+    [Header("Health")]
+    [SerializeField] private Health playerHealth;
+    [SerializeField] private bool playerDead;
+    private bool isDead = false;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -58,12 +63,16 @@ public class CarController : MonoBehaviour
     private void OnEnable()
     {
         inputManager.DriftEvent += OnDrift;
+        playerHealth.OnTakeDamage += HandleTakeDamage;
+        playerHealth.OnDie += HandleDie;
     }
 
 
     private void OnDisable()
     {
         inputManager.DriftEvent -= OnDrift;
+        playerHealth.OnTakeDamage -= HandleTakeDamage;
+        playerHealth.OnDie -= HandleDie;
     }
 
     // Update is called once per frame
@@ -76,7 +85,7 @@ public class CarController : MonoBehaviour
     {
         // Current speed
         currentSpeed = transform.InverseTransformDirection(carRB.velocity).z * speed;
-       Debug.Log( "Current Speed: " +  currentSpeed );
+       //Debug.Log( "Current Speed: " +  currentSpeed );
         // Steering
         steering = turnInputCurve.Evaluate(inputManager.steeringDirection) * carStatsSO.steeringAngle;
 
@@ -189,5 +198,20 @@ public class CarController : MonoBehaviour
             wheelPrefabs[i].transform.rotation = quat;
             wheelPrefabs[i].transform.position = pos;
         }
+    }
+
+    private void HandleTakeDamage()
+    {
+        Debug.Log("Hola)");
+        //animator.CrossFadeInFixedTime(GetHitHash, CrossFadeDuration);
+        //StartCoroutine(AnimationDelay());
+    }
+
+    private void HandleDie()
+    {
+        isDead = true;
+       // Instantiate(deathParticles, transform.position, Quaternion.identity);
+       // Destroy(gameObject);
+
     }
 }
