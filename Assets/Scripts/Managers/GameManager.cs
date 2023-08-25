@@ -21,9 +21,12 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Transform currentSpawnPoint;
 
     [HideInInspector] public String scoreText;
-    [HideInInspector] public float scoringTime;
+    [HideInInspector] public float currentSpeed;
     private float score;
-    private float scoreMultiplier = 2.7f;
+    private float speed;
+    [HideInInspector] public int enemiesDestroyed;
+    [HideInInspector] public float speedInstance;
+
 
 
     private void Awake()
@@ -38,16 +41,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-   
+    private void Start()
+    {
+        enemiesDestroyed = 0;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            scoringTime += Time.deltaTime;
-            score = (Mathf.Round(scoringTime * scoreMultiplier));
+            score = enemiesDestroyed;
             scoreText = score.ToString();
 
         }
     }
+
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class CarController : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private AnimationCurve turnInputCurve = AnimationCurve.Linear(-1.0f, -1.0f, 1.0f, 1.0f);
     [SerializeField] private float speed = 3.6f;
     private float steering;
-    private float currentSpeed;
+    [HideInInspector] public float currentSpeed;
   
     //Steering
     private float totalSteering;
@@ -41,7 +42,10 @@ public class CarController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private Health playerHealth;
     [SerializeField] private bool playerDead;
+    [SerializeField] private GameObject[] damageParticles;
     private bool isDead = false;
+
+    private float speedToUI;
 
     // Start is called before the first frame update
     private void Start()
@@ -75,17 +79,13 @@ public class CarController : MonoBehaviour
         playerHealth.OnDie -= HandleDie;
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-
-    }
-
+ 
     void FixedUpdate()
     {
         // Current speed
         currentSpeed = transform.InverseTransformDirection(carRB.velocity).z * speed;
-       //Debug.Log( "Current Speed: " +  currentSpeed );
+        
+       
         // Steering
         steering = turnInputCurve.Evaluate(inputManager.steeringDirection) * carStatsSO.steeringAngle;
 
@@ -113,6 +113,11 @@ public class CarController : MonoBehaviour
   
         // Downforce
         carRB.AddForce(carStatsSO.extraGravity * currentSpeed * -transform.up);
+
+        if (Mathf.Abs(currentSpeed) > 1)
+            speedToUI = Mathf.Clamp(Mathf.Abs(currentSpeed), 0, 200);
+        else speedToUI = 0;
+        GameManager.instance.currentSpeed = currentSpeed;
     }
 
     public void Breake()
@@ -203,6 +208,31 @@ public class CarController : MonoBehaviour
     private void HandleTakeDamage()
     {
         Debug.Log("Hola)");
+
+        if ( playerHealth.health >= 80 && playerHealth.health <= 85)
+        {
+            damageParticles[0].SetActive(true);
+        }
+        else if (playerHealth.health >= 70 && playerHealth.health <= 71)
+        { 
+            damageParticles[1].SetActive(true); 
+        }
+
+        else if (playerHealth.health >= 50 && playerHealth.health <= 51)
+        { 
+            damageParticles[2].SetActive(true); 
+        }
+        else if (playerHealth.health >= 40 && playerHealth.health <= 42)
+        { 
+            damageParticles[3].SetActive(true); 
+        }
+        else if (playerHealth.health >= 0 && playerHealth.health <= 20)
+        { 
+            damageParticles[4].SetActive(true);
+            damageParticles[5].SetActive(true);
+        }
+
+
         //animator.CrossFadeInFixedTime(GetHitHash, CrossFadeDuration);
         //StartCoroutine(AnimationDelay());
     }
@@ -210,6 +240,7 @@ public class CarController : MonoBehaviour
     private void HandleDie()
     {
         isDead = true;
+        
        // Instantiate(deathParticles, transform.position, Quaternion.identity);
        // Destroy(gameObject);
 

@@ -8,7 +8,7 @@ public class EnemiesSpawner : MonoBehaviour
     [SerializeField] private int enemiesMaxAmount = 20;
     [SerializeField] private Transform[] spawnPoints;
     [HideInInspector] public int currentEnemiesAmount;
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class EnemiesSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentEnemiesAmount);
+        //Debug.Log(currentEnemiesAmount);
 
         if (currentEnemiesAmount <= enemiesMaxAmount)
         {

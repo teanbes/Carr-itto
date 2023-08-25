@@ -28,7 +28,7 @@ public class Health : MonoBehaviour
         OnTakeDamage?.Invoke();
 
 
-        Debug.Log(health);
+        //Debug.Log(health);
 
         if (health == 0)
         {

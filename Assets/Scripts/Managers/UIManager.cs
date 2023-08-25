@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get;  set; }
+    public static UIManager Instance { get; set; }
 
     [Header("Button")]
     [SerializeField] private Button playButton;
@@ -34,14 +35,17 @@ public class UIManager : MonoBehaviour
 
     [Header("Score Components")]
     [SerializeField] private TextMeshProUGUI currentScoreText;
+    [SerializeField] private TextMeshProUGUI CurrentSpeedText;
     private String scoreText;
-    
+    private String speedText;
+
+
     private bool isPaused;
     private bool isActive;
     [HideInInspector] public bool isDead;
 
 
-   
+
     private void Start()
     {
 
@@ -50,7 +54,7 @@ public class UIManager : MonoBehaviour
             playButton.onClick.AddListener(() => Invoke("StartGame", 2f));
             playButton.onClick.AddListener(() => AudioManager.Instance.Play("Select"));
         }
-             
+
         if (instructionsButton)
             instructionsButton.onClick.AddListener(Instructions);
 
@@ -76,7 +80,10 @@ public class UIManager : MonoBehaviour
             Debug.Log("Please set Background music file 1");
 
         if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
             UpdateScoreDisplay();
+            UpdateSpeedDisplay();
+        }
     }
 
 
@@ -91,13 +98,15 @@ public class UIManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             UpdateScoreDisplay();
+            UpdateSpeedDisplay();
         }
     }
+
 
     public void StartGame()
     {
         SceneManager.LoadScene(1);
-        GameManager.instance.scoringTime = 0.0f;
+
     }
 
     private void GameSettings()
@@ -184,10 +193,29 @@ public class UIManager : MonoBehaviour
         GoBack();
     }
 
-     public void UpdateScoreDisplay()
+    public void UpdateScoreDisplay()
     {
         scoreText = GameManager.instance.scoreText;
         currentScoreText.text = scoreText;
+    }
+
+    public void UpdateSpeedDisplay()
+    {
+       
+        if (CurrentSpeedText != null)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Speed:");
+            sb.Append(((int)(GameManager.instance.currentSpeed)).ToString());
+            sb.Append(" Kph");
+
+            CurrentSpeedText.text = sb.ToString();
+        }
+        else if (CurrentSpeedText.text != "")
+        {
+
+        }
+
     }
 }
 

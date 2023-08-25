@@ -9,10 +9,10 @@ public class WeaponDamage : MonoBehaviour
     [SerializeField] private float speed = 30f;
     private Rigidbody rb;
     
-
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        AudioManager.Instance.Play("Shoot");
     }
 
     void FixedUpdate()
@@ -30,6 +30,7 @@ public class WeaponDamage : MonoBehaviour
         if (other.TryGetComponent<Health>(out Health health))
         {
             health.DealDamage(damage);
+            AudioManager.Instance.Play("EnemyDead");
             Destroy(this.gameObject);
         }
     }

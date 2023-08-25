@@ -82,7 +82,7 @@ public class FollowPlayer : MonoBehaviour
             // Player and enemy positions vars
             float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
             Vector3 directionToTarget = (Player.position - transform.position).normalized;
-            Debug.Log("distanceToPlayer" + distanceToPlayer);
+            //Debug.Log("distanceToPlayer" + distanceToPlayer);
 
             if (canSeePlayer == true && monsterDead == false)
             {
@@ -201,6 +201,7 @@ public class FollowPlayer : MonoBehaviour
         Instantiate(deathParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
         enemiesSpawner.currentEnemiesAmount--;
+        GameManager.instance.enemiesDestroyed++;
 
     }
 
