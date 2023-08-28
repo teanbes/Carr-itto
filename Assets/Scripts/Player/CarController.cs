@@ -114,10 +114,7 @@ public class CarController : MonoBehaviour
         // Downforce
         carRB.AddForce(carStatsSO.extraGravity * currentSpeed * -transform.up);
 
-        if (Mathf.Abs(currentSpeed) > 1)
-            speedToUI = Mathf.Clamp(Mathf.Abs(currentSpeed), 0, 200);
-        else speedToUI = 0;
-        GameManager.instance.currentSpeed = currentSpeed;
+        GameManager.instance.currentSpeed = Mathf.Abs(currentSpeed);
     }
 
     public void Breake()
