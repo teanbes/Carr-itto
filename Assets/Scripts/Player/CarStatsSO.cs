@@ -25,6 +25,10 @@ public class CarStatsSO : ScriptableObject
     [Range(0.0f, 2f)]
     public float drift = 1.0f;
 
+    [Tooltip("Drift Force")]
+    [Range(500f, 2000f)]
+    public float driftForce = 1.0f;
+
     [Tooltip("Steering Speed Ratio")]
     [Range(0.001f, 1.0f)]
     public float steeringSpeed = 0.2f;

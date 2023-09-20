@@ -21,17 +21,19 @@ public class CarController : MonoBehaviour
     [SerializeField] private AnimationCurve accelerationCurve = new AnimationCurve(new Keyframe(0, maxSpeed), new Keyframe(maxSpeed, 0));
     [SerializeField] private AnimationCurve turnInputCurve = AnimationCurve.Linear(-1.0f, -1.0f, 1.0f, 1.0f);
     [SerializeField] private float speed = 3.6f;
-    private float steering;
     [HideInInspector] public float currentSpeed;
-  
+    private float initialSpeed;
+
     //Steering
+    private float steering;
     private float totalSteering;
     [HideInInspector] public float Steering { get => totalSteering; set => totalSteering = Mathf.Clamp(value, -1f, 1f);}
   
     //Drift
-    [HideInInspector] public bool isDrifting = true;
+    [HideInInspector] public bool isDrifting = false;
     bool drift;
     public bool Drift { get => drift;  set => drift = value; }
+    [SerializeField] private float driftMultiplier = 1;
 
     [Header("Wheels")]
     [SerializeField] private WheelCollider[] rearWheels;
@@ -52,6 +54,7 @@ public class CarController : MonoBehaviour
     {
         carRB = GetComponent<Rigidbody>();
         wheelCollider = GetComponentsInChildren<WheelCollider>();
+
 
         if (carRB != null && carCenterOfMass != null)
         {
@@ -92,7 +95,7 @@ public class CarController : MonoBehaviour
         // Direction
         foreach (WheelCollider wheel in turnWheels)
         {
-            wheel.steerAngle = Mathf.Lerp(wheel.steerAngle, steering, carStatsSO.steeringSpeed);
+            wheel.steerAngle = Mathf.Lerp(wheel.steerAngle, steering * 0.5f, carStatsSO.steeringSpeed);
         }
 
         // Break
@@ -110,7 +113,9 @@ public class CarController : MonoBehaviour
             // Rotate Car
             StartCoroutine(RotateCar());
         }
-  
+
+        
+        
         // Downforce
         carRB.AddForce(carStatsSO.extraGravity * currentSpeed * -transform.up);
 
@@ -153,7 +158,17 @@ public class CarController : MonoBehaviour
 
     public void OnDrift()
     {
-        Debug.Log("Drifting: ");
+        float driftDirection = Mathf.Sign(inputManager.steeringDirection);
+        // Calculate the sideways force for drifting
+        float sidewaysForce = carStatsSO.driftForce * currentSpeed * -driftDirection;
+
+        // Apply the sideways force to all rear wheels
+        foreach (WheelCollider wheel in rearWheels)
+        {
+            Vector3 sidewaysVector = transform.right * sidewaysForce;
+            carRB.AddForceAtPosition(sidewaysVector, wheel.transform.position);
+        }
+        
     }
 
     // If car turn over, reset rotation to 0
@@ -202,10 +217,11 @@ public class CarController : MonoBehaviour
         }
     }
 
+
+    // change for switch statement ********************************************************0
     private void HandleTakeDamage()
     {
-        Debug.Log("Hola)");
-
+      
         if ( playerHealth.health >= 80 && playerHealth.health <= 85)
         {
             damageParticles[0].SetActive(true);

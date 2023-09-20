@@ -1087,7 +1087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &529460768
 Transform:
   m_ObjectHideFlags: 0
@@ -6841,6 +6841,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 484070690}
     - target: {fileID: 7422211399260720112, guid: 28b1f016fc441064f961b62b7dc6c959, type: 3}
+      propertyPath: driftMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422211399260720112, guid: 28b1f016fc441064f961b62b7dc6c959, type: 3}
       propertyPath: damageParticles.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -7150,7 +7154,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535

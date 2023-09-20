@@ -15,8 +15,9 @@ MonoBehaviour:
   acceleration: 50
   reverseSpeed: 0
   brakingForce: 2000
-  diffGearing: 10
-  drift: 1
-  steeringSpeed: 0.3
+  diffGearing: 16
+  drift: 1.51
+  driftForce: 607
+  steeringSpeed: 0.533
   steeringAngle: 35
   extraGravity: 1
