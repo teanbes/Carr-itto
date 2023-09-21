@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 50
   reverseSpeed: 0
-  brakingForce: 2000
-  diffGearing: 16
-  drift: 1.51
-  driftForce: 607
-  steeringSpeed: 0.533
+  brakingForce: 30000
+  diffGearing: 17
+  drift: 1.5
+  driftForce: 450
+  steeringSpeed: 0.5
   steeringAngle: 35
   extraGravity: 1
+  boostForce: 7
+  boostTime: 0.5

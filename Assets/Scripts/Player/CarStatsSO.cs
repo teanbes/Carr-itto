@@ -14,19 +14,19 @@ public class CarStatsSO : ScriptableObject
     public float reverseSpeed;
     
     [Tooltip("Braking Force")]
-    [Range(1000, 3000)]
-    public float brakingForce = 1500.0f;
+    [Range(5000, 30000)]
+    public float brakingForce = 20000.0f;
 
     [Tooltip("Differential Gearing Ratio")]
-    [Range(2, 16)]
-    public float diffGearing = 4.0f;
+    [Range(8, 25)]
+    public float diffGearing = 16.0f;
 
     [Tooltip("Drift Amount")]
     [Range(0.0f, 2f)]
     public float drift = 1.0f;
 
     [Tooltip("Drift Force")]
-    [Range(500f, 2000f)]
+    [Range(100f, 1500f)]
     public float driftForce = 1.0f;
 
     [Tooltip("Steering Speed Ratio")]
@@ -37,8 +37,15 @@ public class CarStatsSO : ScriptableObject
     [Range(0.0f, 50.0f)]
     public float steeringAngle = 30.0f;
 
-
     [Tooltip("Extra Down Force Gravity")]
     [Range(0.0f, 5.0f)]
     public float extraGravity = 1f;
+
+    [Tooltip("Boost Force")]
+    [Range(5.0f, 10.0f)]
+    public float boostForce = 7f;
+
+    [Tooltip("Boost Time")]
+    [Range(0.1f, 1f)]
+    public float boostTime = 0.5f;
 }

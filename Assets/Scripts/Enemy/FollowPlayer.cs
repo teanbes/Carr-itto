@@ -79,35 +79,37 @@ public class FollowPlayer : MonoBehaviour
 
         if (canSeePlayer == true && monsterDead == false)
         {
+            if ( !Player) { return; }
+            
             // Player and enemy positions vars
             float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
             Vector3 directionToTarget = (Player.position - transform.position).normalized;
-            //Debug.Log("distanceToPlayer" + distanceToPlayer);
+            float playerElevation = Player.position.y;
 
-            if (canSeePlayer == true && monsterDead == false)
+            // Follow player if can see and is not in range of attack
+            if (distanceToPlayer >= rangeOfAttack && distanceToPlayer <= radius && playerElevation < 10)
             {
-                               
-                // Follow player if can see and is not in range of attack
-                if (distanceToPlayer >= rangeOfAttack && distanceToPlayer <= radius)
-                {
-                    animator.SetFloat(SpeedHash, 1f, AnimatorDampTime, Time.deltaTime);
-                    enemyNavMesh.SetDestination(Player.position);
+                animator.SetFloat(SpeedHash, 1f, AnimatorDampTime, Time.deltaTime);
+                enemyNavMesh.SetDestination(Player.position);
                     
-                }
-                // Enemy stops at range but rotates towards player to keep shooting from range
-                else if (distanceToPlayer <= rangeOfAttack)
+            }
+            else if (distanceToPlayer >= rangeOfAttack && distanceToPlayer <= radius && playerElevation > 10)
+            {
+                float randomPos = Random.Range(-1, -3);
+                Vector3 walkAway = new Vector3(randomPos, 0, randomPos);
+                animator.SetFloat(SpeedHash, 1f, AnimatorDampTime, Time.deltaTime);
+                enemyNavMesh.SetDestination(transform.position - walkAway);
+            }
+            else if (distanceToPlayer <= rangeOfAttack)
+            {
+                if (Time.time - lastAttackTime >= attackrate)
                 {
+                    transform.rotation = Quaternion.LookRotation(directionToTarget);
+                    enemyNavMesh.ResetPath();
+                    enemyNavMesh.velocity = Vector3.zero;
+                    animator.CrossFadeInFixedTime(AttackHash, CrossFadeDuration);
 
-                    if (Time.time - lastAttackTime >= attackrate)
-                    {
-                        transform.rotation = Quaternion.LookRotation(directionToTarget);
-                        enemyNavMesh.ResetPath();
-                        enemyNavMesh.velocity = Vector3.zero;
-                        animator.CrossFadeInFixedTime(AttackHash, CrossFadeDuration);
-
-                        lastAttackTime = Time.time;
-                    }
-                   
+                    lastAttackTime = Time.time;
                 }
             }
         }
@@ -220,6 +222,20 @@ public class FollowPlayer : MonoBehaviour
     public void ShootPlayer()
     {
        
+    }
+
+    private void CarElevation()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
+        Vector3 directionToTarget = (Player.position - transform.position).normalized;
+
+        float playerElevation = Player.position.y;
+
+        if (playerElevation > 10f)
+        {
+
+        }
+
     }
 
     private void OnDrawGizmosSelected()

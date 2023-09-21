@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -24,12 +26,12 @@ public class CarController : MonoBehaviour
     [HideInInspector] public float currentSpeed;
     private float initialSpeed;
 
-    //Steering
+    // Steering
     private float steering;
     private float totalSteering;
     [HideInInspector] public float Steering { get => totalSteering; set => totalSteering = Mathf.Clamp(value, -1f, 1f);}
   
-    //Drift
+    // Drift
     [HideInInspector] public bool isDrifting = false;
     bool drift;
     public bool Drift { get => drift;  set => drift = value; }
@@ -46,6 +48,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool playerDead;
     [SerializeField] private GameObject[] damageParticles;
     private bool isDead = false;
+
+    // Boost
+    private bool canBoostForward = true;
+    private bool canBoostReverse = true;
+    private float boostCooldown = 5.0f;
 
     private float speedToUI;
 
@@ -70,6 +77,7 @@ public class CarController : MonoBehaviour
     private void OnEnable()
     {
         inputManager.DriftEvent += OnDrift;
+        inputManager.BoostEvent += OnBoost;
         playerHealth.OnTakeDamage += HandleTakeDamage;
         playerHealth.OnDie += HandleDie;
     }
@@ -78,6 +86,7 @@ public class CarController : MonoBehaviour
     private void OnDisable()
     {
         inputManager.DriftEvent -= OnDrift;
+        inputManager.BoostEvent -= OnBoost;
         playerHealth.OnTakeDamage -= HandleTakeDamage;
         playerHealth.OnDie -= HandleDie;
     }
@@ -114,7 +123,7 @@ public class CarController : MonoBehaviour
             StartCoroutine(RotateCar());
         }
 
-        
+     
         
         // Downforce
         carRB.AddForce(carStatsSO.extraGravity * currentSpeed * -transform.up);
@@ -169,6 +178,48 @@ public class CarController : MonoBehaviour
             carRB.AddForceAtPosition(sidewaysVector, wheel.transform.position);
         }
         
+    }
+
+    public void OnBoost()
+    {
+        if (inputManager.accelerationInput >= 0 && canBoostForward)
+        {
+            StartCoroutine(Boost(true));
+            canBoostForward = false;
+            StartCoroutine(StartBoostCooldown(true));
+        }
+        else if (inputManager.accelerationInput < 0 && canBoostReverse)
+        {
+            StartCoroutine(Boost(false));
+            canBoostReverse = false;
+            StartCoroutine(StartBoostCooldown(false));
+        }
+    }
+
+    IEnumerator Boost(bool isForward)
+    {
+        float startTime = Time.time;
+        Debug.Log("boosting ");
+        while (Time.time < startTime + carStatsSO.boostTime)
+        {
+            if(inputManager.accelerationInput >=0)
+                carRB.AddForce(transform.forward * carStatsSO.boostForce, ForceMode.Acceleration);
+
+            if (inputManager.accelerationInput < 0)
+                carRB.AddForce(-transform.forward * carStatsSO.boostForce, ForceMode.Acceleration);
+
+            yield return null;
+        }
+    }
+
+    IEnumerator StartBoostCooldown(bool isForward)
+    {
+        yield return new WaitForSeconds(boostCooldown);
+
+        if (isForward)
+            canBoostForward = true;
+        else
+            canBoostReverse = true;
     }
 
     // If car turn over, reset rotation to 0
@@ -244,7 +295,7 @@ public class CarController : MonoBehaviour
             damageParticles[4].SetActive(true);
             damageParticles[5].SetActive(true);
         }
-
+        
 
         //animator.CrossFadeInFixedTime(GetHitHash, CrossFadeDuration);
         //StartCoroutine(AnimationDelay());
@@ -254,8 +305,22 @@ public class CarController : MonoBehaviour
     {
         isDead = true;
         
-       // Instantiate(deathParticles, transform.position, Quaternion.identity);
-       // Destroy(gameObject);
+        //Instantiate(deathParticles, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+
+    }
+
+    public IEnumerator Die()
+    {
+        // play death sound
+        //animator.SetBool("IsDead", true); play dead animation or explosion
+        //uiManager.PauseBackgorundMusic();
+
+ 
+        yield return new WaitForSeconds(0.5f);
+        //Time.timeScale = 0;
+       
+        // load gameover panel
 
     }
 }

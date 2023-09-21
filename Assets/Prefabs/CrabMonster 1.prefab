@@ -4843,7 +4843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCollider: {fileID: 4851063776445283476}
-  damage: 1
+  damage: 5
 --- !u!1 &4851063775327933801
 GameObject:
   m_ObjectHideFlags: 0

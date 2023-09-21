@@ -7,20 +7,27 @@ public class WeaponDamage : MonoBehaviour
 {
     [SerializeField] private int damage = 25;
     [SerializeField] private float speed = 30f;
+    [SerializeField] GameObject projectileParent;
     private Rigidbody rb;
+    private float projectileLife = 3f;
     
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         AudioManager.Instance.Play("Shoot");
+
+        if (projectileLife <= 0)
+            projectileLife = 2f;
+
+        Destroy(projectileParent, projectileLife);
     }
 
     void FixedUpdate()
     {
+
         if (speed != 0)
         {
             rb.velocity = transform.forward * speed;
-                 
         }
     }
 
@@ -31,8 +38,9 @@ public class WeaponDamage : MonoBehaviour
         {
             health.DealDamage(damage);
             AudioManager.Instance.Play("EnemyDead");
-            Destroy(this.gameObject);
         }
+        Destroy(projectileParent);
+
     }
 
 }

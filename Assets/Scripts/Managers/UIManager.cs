@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; set; }
+    [SerializeField] private InputManager inputManager;
 
     [Header("Button")]
     [SerializeField] private Button playButton;
@@ -28,7 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public GameObject gameOverPanel;
     [SerializeField] private GameObject instructionsPanel;
     [SerializeField] private GameObject creditsPanel;
-    [SerializeField] public GameObject scorePanel;
+    [SerializeField] public GameObject HUDPanel;
 
     [Header("Audio Components")]
     [SerializeField] private AudioSource backgroundMusic;
@@ -43,8 +44,6 @@ public class UIManager : MonoBehaviour
     private bool isPaused;
     private bool isActive;
     [HideInInspector] public bool isDead;
-
-
 
     private void Start()
     {
@@ -84,8 +83,18 @@ public class UIManager : MonoBehaviour
             UpdateScoreDisplay();
             UpdateSpeedDisplay();
         }
+        Time.timeScale = 1;
     }
 
+     private void OnEnable()
+    {
+        inputManager.PauseEvent += PauseGame;
+    }
+
+    private void OnDisable()
+    {
+        inputManager.PauseEvent -= PauseGame;
+    }
 
     private void Update()
     {
@@ -102,7 +111,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
     public void StartGame()
     {
         SceneManager.LoadScene(1);
@@ -118,7 +126,7 @@ public class UIManager : MonoBehaviour
     private void BackToPauseMenu()
     {
         AudioManager.Instance.Play("Select");
-        settingsPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
 
     public void BackToMainMenu()
@@ -128,8 +136,11 @@ public class UIManager : MonoBehaviour
     }
     public void GameQuit()
     {
-        SceneManager.LoadScene(0);
-        //UnityEditor.EditorApplication.isPlaying = false;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 
     public void Credits()
@@ -151,8 +162,10 @@ public class UIManager : MonoBehaviour
         if (isActive)
         {
             AudioManager.Instance.Play("Select");
-            instructionsPanel.SetActive(false);
-            creditsPanel.SetActive(false);
+            if (instructionsPanel)
+                instructionsPanel.SetActive(false);
+            if (creditsPanel)
+                creditsPanel.SetActive(false);
             isActive = false;
         }
     }
@@ -161,7 +174,7 @@ public class UIManager : MonoBehaviour
     {
         isPaused = !isPaused;
         pausePanel.SetActive(isPaused);
-        scorePanel.SetActive(false);
+        HUDPanel.SetActive(false);
 
         if (isPaused)
         {
@@ -173,7 +186,7 @@ public class UIManager : MonoBehaviour
         {
             AudioManager.Instance.Play("Select");
             Time.timeScale = 1;
-            scorePanel.SetActive(true);
+            HUDPanel.SetActive(true);
             UnpauseBackgorundMusic();
         }
     }

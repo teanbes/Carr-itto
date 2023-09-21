@@ -26,9 +26,7 @@ public class GameManager : MonoBehaviour
     private float speed;
     [HideInInspector] public int enemiesDestroyed;
     [HideInInspector] public float speedInstance;
-
-
-
+   
     private void Awake()
     {
         if (_instance)
@@ -45,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         enemiesDestroyed = 0;
     }
-
+   
 
     // Update is called once per frame
     void Update()
@@ -57,5 +55,7 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
+
 
 }

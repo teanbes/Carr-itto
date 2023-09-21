@@ -9,11 +9,14 @@ public class InputManager : MonoBehaviour, CarInputs.ICarActions
 {
     private CarInputs CarInputs;
     public event Action DriftEvent;
-    
+    public event Action BoostEvent;
+    public event Action PauseEvent;
+
     [HideInInspector] public bool isBreaking;
     [HideInInspector] public float accelerationInput;
     [HideInInspector] public float steeringDirection;
     [HideInInspector] public bool isShooting;
+
 
 
     private void Awake()
@@ -83,6 +86,22 @@ public class InputManager : MonoBehaviour, CarInputs.ICarActions
         if (!context.performed)
         {
             isShooting = false;
+        }
+    }
+
+    public void OnBoost(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            BoostEvent?.Invoke();
+        }
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            PauseEvent?.Invoke();
         }
     }
 }

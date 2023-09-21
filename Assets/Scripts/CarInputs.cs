@@ -71,6 +71,24 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Boost"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e5d7e41-d646-4e60-a325-c84f00b8f96d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e034cbc1-344a-4939-acf2-b00f78532029"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -111,7 +129,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                     ""name"": ""GamepadAccelaration"",
                     ""id"": ""92b1e05c-4bce-4a19-b4a3-e61872d3c910"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=1.401298E-45)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Accelerate"",
@@ -121,7 +139,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""8a2994e4-4bc9-4db0-9fe9-8c318bbc5c16"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -132,7 +150,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""583528e7-27a1-4508-827a-ac260b205e5a"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -177,7 +195,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                     ""name"": ""GamepadSteering"",
                     ""id"": ""138091a5-819e-4d67-99e3-cc75a9e7afc3"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=1.401298E-45)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Steering"",
@@ -220,7 +238,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e77980ba-6161-4f41-a8f4-cf3aeefbd226"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": ""Hold(duration=0.01)"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -231,7 +249,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""09ddd875-14ce-457f-a917-8ac73a4402e7"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -242,7 +260,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""aa4a5484-7724-4d72-b1c1-3deb50f79106"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -264,11 +282,55 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6e820fe9-b38c-4a75-b300-cca6253ca892"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16243875-e63f-4dc8-9e00-9ec93a8f0d70"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f09ec626-c8bc-4574-a0ee-1b545984b7be"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7441daf0-9980-4f61-9085-82166118b198"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f87fcc84-76eb-4278-8215-1d03670f097e"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -295,6 +357,8 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
         m_Car_Drift = m_Car.FindAction("Drift", throwIfNotFound: true);
         m_Car_Brake = m_Car.FindAction("Brake", throwIfNotFound: true);
         m_Car_Shoot = m_Car.FindAction("Shoot", throwIfNotFound: true);
+        m_Car_Boost = m_Car.FindAction("Boost", throwIfNotFound: true);
+        m_Car_Pause = m_Car.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +425,8 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Car_Drift;
     private readonly InputAction m_Car_Brake;
     private readonly InputAction m_Car_Shoot;
+    private readonly InputAction m_Car_Boost;
+    private readonly InputAction m_Car_Pause;
     public struct CarActions
     {
         private @CarInputs m_Wrapper;
@@ -370,6 +436,8 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_Car_Drift;
         public InputAction @Brake => m_Wrapper.m_Car_Brake;
         public InputAction @Shoot => m_Wrapper.m_Car_Shoot;
+        public InputAction @Boost => m_Wrapper.m_Car_Boost;
+        public InputAction @Pause => m_Wrapper.m_Car_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Car; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -394,6 +462,12 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @Boost.started += instance.OnBoost;
+            @Boost.performed += instance.OnBoost;
+            @Boost.canceled += instance.OnBoost;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(ICarActions instance)
@@ -413,6 +487,12 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @Boost.started -= instance.OnBoost;
+            @Boost.performed -= instance.OnBoost;
+            @Boost.canceled -= instance.OnBoost;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(ICarActions instance)
@@ -455,5 +535,7 @@ public partial class @CarInputs: IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnBoost(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
