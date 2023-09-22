@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private float speed;
     [HideInInspector] public int enemiesDestroyed;
     [HideInInspector] public float speedInstance;
+    [HideInInspector] public bool playerIsDead = false;
    
     private void Awake()
     {

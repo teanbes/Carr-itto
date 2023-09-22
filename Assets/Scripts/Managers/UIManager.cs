@@ -36,7 +36,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Score Components")]
     [SerializeField] private TextMeshProUGUI currentScoreText;
-    [SerializeField] private TextMeshProUGUI CurrentSpeedText;
+    [SerializeField] private TextMeshProUGUI currentSpeedText;
+    [SerializeField] private TextMeshProUGUI totalScoreText;
     private String scoreText;
     private String speedText;
 
@@ -88,12 +89,14 @@ public class UIManager : MonoBehaviour
 
      private void OnEnable()
     {
-        inputManager.PauseEvent += PauseGame;
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            inputManager.PauseEvent += PauseGame;
     }
 
     private void OnDisable()
     {
-        inputManager.PauseEvent -= PauseGame;
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            inputManager.PauseEvent -= PauseGame;
     }
 
     private void Update()
@@ -134,6 +137,12 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.Play("Select");
         SceneManager.LoadScene(0);
     }
+
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+    }
+
     public void GameQuit()
     {
 #if UNITY_EDITOR
@@ -210,21 +219,22 @@ public class UIManager : MonoBehaviour
     {
         scoreText = GameManager.instance.scoreText;
         currentScoreText.text = scoreText;
+        totalScoreText.text = scoreText;
     }
 
     public void UpdateSpeedDisplay()
     {
        
-        if (CurrentSpeedText != null)
+        if (currentSpeedText != null)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("Speed:");
             sb.Append(((int)(GameManager.instance.currentSpeed)).ToString());
             sb.Append(" Kph");
 
-            CurrentSpeedText.text = sb.ToString();
+            currentSpeedText.text = sb.ToString();
         }
-        else if (CurrentSpeedText.text != "")
+        else if (currentSpeedText.text != "")
         {
 
         }

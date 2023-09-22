@@ -50,7 +50,9 @@ public class FollowPlayer : MonoBehaviour
     void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
-        Player = playerRef.transform;
+        if (playerRef )
+            Player = playerRef.transform;
+
         enemiesSpawner = FindObjectOfType<EnemiesSpawner>();
         currentEnemiesAmount = enemiesSpawner.currentEnemiesAmount; 
         rb = GetComponent<Rigidbody>();
@@ -79,7 +81,7 @@ public class FollowPlayer : MonoBehaviour
 
         if (canSeePlayer == true && monsterDead == false)
         {
-            if ( !Player) { return; }
+            if (!Player) { return; }
             
             // Player and enemy positions vars
             float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
@@ -112,6 +114,7 @@ public class FollowPlayer : MonoBehaviour
                     lastAttackTime = Time.time;
                 }
             }
+            
         }
         if (canSeePlayer == false && monsterDead == false)
         {
@@ -120,7 +123,7 @@ public class FollowPlayer : MonoBehaviour
             animator.CrossFadeInFixedTime(LocomotionHash, CrossFadeDuration);
             animator.SetFloat(SpeedHash, 0f, AnimatorDampTime, Time.deltaTime);
         }
-
+        
     }
 
     private void OnEnable()
@@ -141,7 +144,8 @@ public class FollowPlayer : MonoBehaviour
         yield return new WaitForSeconds(1f); // wait for 1 second
 
         playerRef = GameObject.FindGameObjectWithTag("Player");
-        Player = playerRef.transform;
+        if (playerRef)
+            Player = playerRef.transform;
 
     }
 
@@ -201,6 +205,7 @@ public class FollowPlayer : MonoBehaviour
     {
         monsterDead = true;
         Instantiate(deathParticles, transform.position, Quaternion.identity);
+        AudioManager.Instance.Play("BugSquished");
         Destroy(gameObject);
         enemiesSpawner.currentEnemiesAmount--;
         GameManager.instance.enemiesDestroyed++;

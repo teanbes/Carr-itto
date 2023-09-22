@@ -17,6 +17,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform carCenterOfMass;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject stopLights;
+    [SerializeField] private UIManager uiManager;
     
     [Header("Aditional Car Stats")]
     [SerializeField] private const float maxSpeed = 200;
@@ -47,7 +48,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Health playerHealth;
     [SerializeField] private bool playerDead;
     [SerializeField] private GameObject[] damageParticles;
-    private bool isDead = false;
+    [SerializeField] private GameObject deathParticles;
+    [HideInInspector] public bool isDead = false;
 
     // Boost
     private bool canBoostForward = true;
@@ -304,23 +306,15 @@ public class CarController : MonoBehaviour
     private void HandleDie()
     {
         isDead = true;
-        
-        //Instantiate(deathParticles, transform.position, Quaternion.identity);
+        GameManager.instance.playerIsDead = true;
+        AudioManager.Instance.Play("Explosion");
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
+        uiManager.GameOver();
+        uiManager.HUDPanel.SetActive(false);
+        uiManager.PauseBackgorundMusic();
         Destroy(gameObject);
 
     }
 
-    public IEnumerator Die()
-    {
-        // play death sound
-        //animator.SetBool("IsDead", true); play dead animation or explosion
-        //uiManager.PauseBackgorundMusic();
-
- 
-        yield return new WaitForSeconds(0.5f);
-        //Time.timeScale = 0;
-       
-        // load gameover panel
-
-    }
+    
 }
