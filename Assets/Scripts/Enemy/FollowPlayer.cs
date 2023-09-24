@@ -169,13 +169,9 @@ public class FollowPlayer : MonoBehaviour
         // Check for colitions in the radius of sphere cast
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
         // If there is at least 1 collition player is in field of view
-
         if (rangeChecks.Length != 0 && monsterDead == false)
         {
-            
             Transform target = rangeChecks[0].transform;
-
-
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
@@ -204,6 +200,7 @@ public class FollowPlayer : MonoBehaviour
     private void HandleDie()
     {
         monsterDead = true;
+        CinemachineShake.Instance.ShakeCamera(5f, 0.1f);
         Instantiate(deathParticles, transform.position, Quaternion.identity);
         AudioManager.Instance.Play("BugSquished");
         Destroy(gameObject);
@@ -223,12 +220,7 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
-    // Attack Player
-    public void ShootPlayer()
-    {
-       
-    }
-
+    // not used yet
     private void CarElevation()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, Player.position);

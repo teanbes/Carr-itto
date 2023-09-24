@@ -37,7 +37,7 @@ public class WeaponDamage : MonoBehaviour
         if (other.TryGetComponent<Health>(out Health health))
         {
             health.DealDamage(damage);
-            AudioManager.Instance.Play("EnemyDead");
+            //AudioManager.Instance.Play("EnemyDead");
         }
         Destroy(projectileParent);
 

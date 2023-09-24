@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LostInSpace : MonoBehaviour
 {
-   
+    [SerializeField] private GameObject lostInSpacePanel;
 
     private void OnTriggerEnter(Collider other)
     {
         if ( other.GetComponent<CarController>())
         {
-            Debug.Log("You Are Lost In Space");
+            lostInSpacePanel.SetActive(true);
             Time.timeScale = 0.0f;
         }
     }

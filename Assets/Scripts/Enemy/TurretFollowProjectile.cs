@@ -19,7 +19,9 @@ public class TurretFollowProjectile : MonoBehaviour
     private bool isFollowing = false;
     private float  projectileImpactForce = 100;
     private bool hasSpawnedShockWave = false;
-  
+
+   
+
     private void Start()
     {
         if (GameManager.instance.playerIsDead) { return; }
@@ -61,6 +63,9 @@ public class TurretFollowProjectile : MonoBehaviour
         }
     }
 
+   
+
+
     private IEnumerator MidAirDelay()
     {
 
@@ -77,6 +82,7 @@ public class TurretFollowProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.GetComponent<CarController>())
         {
             // Apply Impact Force
@@ -87,4 +93,5 @@ public class TurretFollowProjectile : MonoBehaviour
         Instantiate(hit, transform.position, transform.rotation);
         Destroy(gameObject);
     }
+
 }
