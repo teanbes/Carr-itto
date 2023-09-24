@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
@@ -37,8 +39,11 @@ public class UIManager : MonoBehaviour
     [Header("Score Components")]
     [SerializeField] private TextMeshProUGUI currentScoreText;
     [SerializeField] private TextMeshProUGUI currentSpeedText;
-    [SerializeField] private TextMeshProUGUI totalScoreText;
+    [SerializeField] private TextMeshProUGUI[] totalScoreText;
+    [SerializeField] private TextMeshProUGUI[] totalTimeText;
+
     private String scoreText;
+    private String timerText;
     private String speedText;
 
 
@@ -117,6 +122,11 @@ public class UIManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(1);
+        GameManager.instance.playerIsDead = false;
+        GameManager.instance.enemiesDestroyed = 0;
+        GameManager.instance.score = 0;
+        GameManager.instance.timer = 0;
+        Time.timeScale = 1.0f;
 
     }
 
@@ -219,13 +229,22 @@ public class UIManager : MonoBehaviour
     {
         scoreText = GameManager.instance.scoreText;
         currentScoreText.text = scoreText;
-        totalScoreText.text = scoreText;
+        totalScoreText[0].text = scoreText;
+        totalScoreText[1].text = scoreText;
+
+        // Timer
+        string minutes = ((int)GameManager.instance.timer / 60).ToString("00");
+        string seconds = (GameManager.instance.timer % 60).ToString("00");
+
+        for (int i = 0; i < totalTimeText.Length; i++)
+        {
+            totalTimeText[i].text = "Time: " + minutes + ":" + seconds;
+        }
     }
 
     public void UpdateSpeedDisplay()
     {
-       
-        if (currentSpeedText != null)
+        if (currentSpeedText)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("Speed:");

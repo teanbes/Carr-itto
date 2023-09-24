@@ -17,17 +17,18 @@ public class GameManager : MonoBehaviour
     }
 
     public CarController carPrefab;
-    [HideInInspector] public CarController playerInstance = null;
     [HideInInspector] public Transform currentSpawnPoint;
 
     [HideInInspector] public String scoreText;
     [HideInInspector] public float currentSpeed;
-    private float score;
+    [HideInInspector] public float score;
     private float speed;
     [HideInInspector] public int enemiesDestroyed;
     [HideInInspector] public float speedInstance;
     [HideInInspector] public bool playerIsDead = false;
-   
+    [HideInInspector] public float timer;
+    [HideInInspector] public String timerText;
+
     private void Awake()
     {
         if (_instance)
@@ -38,11 +39,14 @@ public class GameManager : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
+
     }
 
     private void Start()
     {
         enemiesDestroyed = 0;
+        score = 0;
+        timer = 0;
     }
    
 
@@ -54,6 +58,12 @@ public class GameManager : MonoBehaviour
             score = enemiesDestroyed;
             scoreText = score.ToString();
 
+            if (!playerIsDead) 
+            {
+                timer += Time.deltaTime;
+                timerText = timer.ToString();
+            }
+            
         }
     }
 
