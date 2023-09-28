@@ -14,6 +14,7 @@ public class TurretFollowProjectile : MonoBehaviour
     [SerializeField] private float midAirDelayTime = 1.5f;
     [SerializeField] private GameObject hit;
     [SerializeField] private GameObject shockWave;
+    [SerializeField] private int damage = 8;
 
     private Rigidbody rb;
     private bool isFollowing = false;
@@ -26,7 +27,7 @@ public class TurretFollowProjectile : MonoBehaviour
     {
         if (GameManager.instance.playerIsDead) { return; }
             
-        player = GameManager.instance.carPrefab.transform;
+        player = GameObject.FindObjectOfType<CarController>().transform;
         rb = GetComponent<Rigidbody>();
 
         // move projectile to position
@@ -88,10 +89,16 @@ public class TurretFollowProjectile : MonoBehaviour
             // Apply Impact Force
             Vector3 directionToPlayer = player.position - transform.position;
             other.GetComponent<Rigidbody>().AddForce(directionToPlayer * projectileImpactForce, ForceMode.Acceleration);
+            CinemachineShake.Instance.ShakeCamera(5f, 0.1f);
+            if (other.TryGetComponent<Health>(out Health health))
+            {
+                health.DealDamage(damage);
+                CinemachineShake.Instance.ShakeCamera(1f, 0.05f);
+            }
         }
         // Spawn hit particles
         Instantiate(hit, transform.position, transform.rotation);
         Destroy(gameObject);
     }
-
+     
 }

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.HID;
 public class Boss : MonoBehaviour
 {
     [SerializeField] private GameObject bossReference;
+    [SerializeField] private HealthBar healthBar;
 
     [Header("Health")]
     [SerializeField] private Health bossHealth;
@@ -54,11 +55,13 @@ public class Boss : MonoBehaviour
     {
         Debug.Log("doing damage");
         Instantiate(hitParticle, hitSpawnPoint.position, Quaternion.identity);
+        healthBar.UpdateHealthBar(bossHealth.health);
     }
 
     private void HandleDie()
     {
         bossDead = true;
+        CinemachineShake.Instance.ShakeCamera(5f, 0.1f);
         Instantiate(deathParticle, transform.position, Quaternion.identity);
         AudioManager.Instance.Play("BossDeath");
         AudioManager.Instance.Play("Explosion");

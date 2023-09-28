@@ -18,6 +18,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject stopLights;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private HealthBar healthBar;
+
     
     [Header("Aditional Car Stats")]
     [SerializeField] private const float maxSpeed = 200;
@@ -54,7 +56,7 @@ public class CarController : MonoBehaviour
     // Boost
     private bool canBoostForward = true;
     private bool canBoostReverse = true;
-    private float boostCooldown = 5.0f;
+    private float boostCooldown = 3.5f;
 
     private float speedToUI;
 
@@ -271,36 +273,41 @@ public class CarController : MonoBehaviour
     }
 
 
-    // change for switch statement ********************************************************0
     private void HandleTakeDamage()
     {
-      
-        if ( playerHealth.health >= 80 && playerHealth.health <= 85)
+        healthBar.UpdateHealthBar(playerHealth.health);
+
+        switch (playerHealth.health)
         {
-            damageParticles[0].SetActive(true);
-        }
-        else if (playerHealth.health >= 70 && playerHealth.health <= 71)
-        { 
-            damageParticles[1].SetActive(true); 
+            case 120:
+                damageParticles[0].SetActive(true);
+                break;
+
+            case 100:
+                damageParticles[1].SetActive(true);
+                break;
+
+            case 80:
+                damageParticles[2].SetActive(true);
+                break;
+
+            case 50:
+                damageParticles[3].SetActive(true);
+                damageParticles[4].SetActive(true);
+                break;
+
+            case 30:
+                damageParticles[5].SetActive(true);
+                break;
+
+            case 15:
+                damageParticles[6].SetActive(true);
+                damageParticles[7].SetActive(true);
+                break;
+
+
         }
 
-        else if (playerHealth.health >= 50 && playerHealth.health <= 51)
-        { 
-            damageParticles[2].SetActive(true); 
-        }
-        else if (playerHealth.health >= 40 && playerHealth.health <= 42)
-        { 
-            damageParticles[3].SetActive(true); 
-        }
-        else if (playerHealth.health >= 0 && playerHealth.health <= 20)
-        { 
-            damageParticles[4].SetActive(true);
-            damageParticles[5].SetActive(true);
-        }
-        
-
-        //animator.CrossFadeInFixedTime(GetHitHash, CrossFadeDuration);
-        //StartCoroutine(AnimationDelay());
     }
 
     private void HandleDie()

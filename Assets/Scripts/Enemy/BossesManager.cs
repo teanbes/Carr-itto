@@ -28,7 +28,7 @@ public class BossesManager : MonoBehaviour
                 AudioManager.Instance.Play("BossSpawn");
             break;
 
-            case 40:
+            case 45:
                 bosses[1].SetActive(true);
                 AudioManager.Instance.Play("BossSpawn");
                 break;

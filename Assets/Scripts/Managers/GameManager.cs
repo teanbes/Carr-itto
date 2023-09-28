@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
+        if (!carPrefab)
+            carPrefab = GameObject.FindObjectOfType<CarController>();
     }
 
     private void Start()

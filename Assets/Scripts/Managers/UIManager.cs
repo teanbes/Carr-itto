@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
 
         if (playButton)
         {
-            playButton.onClick.AddListener(() => Invoke("StartGame", 2f));
+            playButton.onClick.AddListener(() => Invoke("StartGame", 1f));
             playButton.onClick.AddListener(() => AudioManager.Instance.Play("Select"));
         }
 
@@ -121,8 +121,8 @@ public class UIManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
         GameManager.instance.playerIsDead = false;
+        SceneManager.LoadScene(1);
         GameManager.instance.enemiesDestroyed = 0;
         GameManager.instance.score = 0;
         GameManager.instance.timer = 0;
@@ -207,6 +207,7 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1;
             HUDPanel.SetActive(true);
             UnpauseBackgorundMusic();
+            GoBack();
         }
     }
 

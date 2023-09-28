@@ -9832,6 +9832,7 @@ MonoBehaviour:
   midAirDelayTime: 1.5
   hit: {fileID: 3697849024615710839, guid: d9dd16852c78439419bf98c52b5f35f2, type: 3}
   shockWave: {fileID: 5101837485059399679, guid: 9a555385d763e294981f8be08c3139b3, type: 3}
+  damage: 8
 --- !u!1 &1019424626061685045
 GameObject:
   m_ObjectHideFlags: 0

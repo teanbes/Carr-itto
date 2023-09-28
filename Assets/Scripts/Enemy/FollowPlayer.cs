@@ -200,7 +200,6 @@ public class FollowPlayer : MonoBehaviour
     private void HandleDie()
     {
         monsterDead = true;
-        CinemachineShake.Instance.ShakeCamera(5f, 0.1f);
         Instantiate(deathParticles, transform.position, Quaternion.identity);
         AudioManager.Instance.Play("BugSquished");
         Destroy(gameObject);
