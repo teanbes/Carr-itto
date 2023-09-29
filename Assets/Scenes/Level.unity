@@ -108,7 +108,7 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 30
+    agentSlope: 40.6
     agentClimb: 0.75
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -554,7 +554,7 @@ MonoBehaviour:
   m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
-  m_YawDamping: 0
+  m_YawDamping: 1.5
   m_RollDamping: 0
   m_AngularDamping: 0
 --- !u!114 &120947299
@@ -9126,7 +9126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Speed: 00'
+  m_text: Speed 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 35c805d08dfea2e418ed56081e82b501, type: 2}
   m_sharedMaterial: {fileID: -6397704104026352814, guid: 35c805d08dfea2e418ed56081e82b501, type: 2}
@@ -13864,7 +13864,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

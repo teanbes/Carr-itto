@@ -42,8 +42,8 @@ public class CarStatsSO : ScriptableObject
     public float extraGravity = 1f;
 
     [Tooltip("Boost Force")]
-    [Range(5.0f, 10.0f)]
-    public float boostForce = 7f;
+    [Range(15000f, 50000f)]
+    public float boostForce = 25000f;
 
     [Tooltip("Boost Time")]
     [Range(0.1f, 1f)]

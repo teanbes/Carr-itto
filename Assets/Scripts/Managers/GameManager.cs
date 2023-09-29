@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public float score;
     private float speed;
     [HideInInspector] public int enemiesDestroyed;
+    [HideInInspector] public int boosesDestroyed;
     [HideInInspector] public float speedInstance;
     [HideInInspector] public bool playerIsDead = false;
     [HideInInspector] public float timer;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         enemiesDestroyed = 0;
+        boosesDestroyed = 0;
         score = 0;
         timer = 0;
     }

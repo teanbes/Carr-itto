@@ -15,17 +15,13 @@ public class Boss : MonoBehaviour
     [SerializeField] private GameObject deathParticle;
     [SerializeField] private Transform hitSpawnPoint;
 
-
-
     private void Update()
     {
         if (bossDead)
         {
-            
             bossHealth.health = 2000;
             bossDead = false;
         }
-
     }
 
     private void OnEnable()
@@ -47,8 +43,6 @@ public class Boss : MonoBehaviour
         {
             HandleTakeDamage();
         }
-
-
     }
 
     private void HandleTakeDamage()
@@ -66,7 +60,8 @@ public class Boss : MonoBehaviour
         AudioManager.Instance.Play("BossDeath");
         AudioManager.Instance.Play("Explosion");
         bossReference.SetActive(false);
-        GameManager.instance.enemiesDestroyed +=20; 
-
+        GameManager.instance.enemiesDestroyed +=20;
+        GameManager.instance.boosesDestroyed++;
+        bossHealth.health = 2000;
     }
 }

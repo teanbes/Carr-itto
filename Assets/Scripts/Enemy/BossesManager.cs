@@ -6,14 +6,7 @@ public class BossesManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] bosses;
 
-
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+ 
     void Update()
     {
         ActivateBoss();
@@ -21,31 +14,40 @@ public class BossesManager : MonoBehaviour
 
     private void ActivateBoss()
     {
-        switch (GameManager.instance.enemiesDestroyed)
+        int enemiesDestroyed = GameManager.instance.enemiesDestroyed;
+        int bossesDestroyed = GameManager.instance.boosesDestroyed;
+
+        if (enemiesDestroyed >= 15 && enemiesDestroyed <= 44 && bossesDestroyed == 0 )
         {
-            case 15:
-                bosses[0].SetActive(true);
-                AudioManager.Instance.Play("BossSpawn");
-            break;
-
-            case 45:
-                bosses[1].SetActive(true);
-                AudioManager.Instance.Play("BossSpawn");
-                break;
-
-            case 80:
-                bosses[0].SetActive(true);
-                bosses[1].SetActive(true);
-                AudioManager.Instance.Play("BossSpawn");
-                break;
-
-            case 120:
-                bosses[0].SetActive(true);
-                AudioManager.Instance.Play("BossSpawn");
-                bosses[1].SetActive(true);
-                AudioManager.Instance.Play("BossSpawn");
-                bosses[2].SetActive(true);
-            break;
+            bosses[0].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+        }
+        else if (enemiesDestroyed >= 45 && enemiesDestroyed <= 79 && bossesDestroyed == 1)
+        {
+            bosses[1].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+        }
+        else if (enemiesDestroyed >= 80 && enemiesDestroyed <= 150 && bossesDestroyed == 2)
+        {
+            bosses[0].SetActive(true);
+            bosses[1].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+        }
+        else if (enemiesDestroyed >= 150 && enemiesDestroyed <= 240 && bossesDestroyed == 4)
+        {
+            bosses[0].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+            bosses[1].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+            bosses[2].SetActive(true);
+        }
+        else if (enemiesDestroyed >= 240 && enemiesDestroyed <= 300 && bossesDestroyed == 7)
+        {
+            bosses[0].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+            bosses[1].SetActive(true);
+            AudioManager.Instance.Play("BossSpawn");
+            bosses[2].SetActive(true);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -207,10 +206,10 @@ public class CarController : MonoBehaviour
         while (Time.time < startTime + carStatsSO.boostTime)
         {
             if(inputManager.accelerationInput >=0)
-                carRB.AddForce(transform.forward * carStatsSO.boostForce, ForceMode.Acceleration);
+                carRB.AddForce(transform.forward * 3000000 * Time.deltaTime, ForceMode.Force);
 
             if (inputManager.accelerationInput < 0)
-                carRB.AddForce(-transform.forward * carStatsSO.boostForce, ForceMode.Acceleration);
+                carRB.AddForce(-transform.forward * 3000000 * Time.deltaTime, ForceMode.Force);
 
             yield return null;
         }

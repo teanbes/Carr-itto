@@ -168,17 +168,17 @@ public class FollowPlayer : MonoBehaviour
     {
         // Check for colitions in the radius of sphere cast
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-        // If there is at least 1 collition player is in field of view
+        // If there is at least 1 collition; player is in field of view
         if (rangeChecks.Length != 0 && monsterDead == false)
         {
             Transform target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
+            // If target is in the sector of field of view
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
                 float distancetoTarget = Vector3.Distance(transform.position, target.position);
                 
-
                 if (distancetoTarget <= maxDistance && !Physics.Raycast(transform.position, directionToTarget, distancetoTarget, obstructionMask))
                     canSeePlayer = true;
                 else

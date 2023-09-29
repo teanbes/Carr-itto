@@ -25,7 +25,7 @@ public class DamagePlayer : MonoBehaviour
         if (other.TryGetComponent<Health>(out Health health))
         {
             health.DealDamage(damage);
-            CinemachineShake.Instance.ShakeCamera(1f, 0.05f);
+            CinemachineShake.Instance.ShakeCamera(1f, 0.1f);
         }
     }
 }

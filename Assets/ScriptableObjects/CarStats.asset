@@ -21,5 +21,5 @@ MonoBehaviour:
   steeringSpeed: 0.5
   steeringAngle: 35
   extraGravity: 1
-  boostForce: 7
+  boostForce: 50000
   boostTime: 0.5
